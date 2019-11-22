@@ -1,0 +1,89 @@
+{ ---------------------------------------------------------------------
+Title: Config Library
+File: config.ksp
+Author: Wesley Coleman
+First Written: 
+Current Version: 1.0
+Last Modified:
+----------------------------------------------------------------------}
+
+{ ******************************************************************** 
+* INCLUDES *
+**********************************************************************}
+import '../../../../_libraries/ui_library_finished.ksp'
+
+{* Initialisation macro. Set up the UI, create some default variables and constants, setup global instrument parameters.
+*
+* @param 	title 		Name for the script tab. If using multiple tabs this will also be displayed as the tab name in performance
+* @param 	ui_height	The height, in pixels, of the instrument UI.
+* @param 	skin		The filename of the intstrument's skin/wallpaper image.
+*
+*/}
+
+macro config.init(title, ui_height, skin)
+	{*PRAGMA - Save to file on compile}
+	{#pragma save_compiled_source ../k5_tab_1.txt}
+
+{* Constants *
+**********************************************************************}
+	declare i 
+	declare ii 
+	declare x 
+	declare y 
+
+	declare const MIL := 1000000
+{* FAMILIES *
+**********************************************************************}
+	family App
+		declare const LOW_KEY := 0
+		declare const HIGH_KEY := 127
+	end family
+
+	family Controls { Family with Label information so the hiding with tab controls would work properly }
+		declare %labels[MAX_ARRAY_SIZE] := (0)
+		declare labelCount := 0
+		declare dist.min := -100
+		declare dist.max := 100		
+		declare cutoff.min := 26
+		declare cutoff.max := 19900
+		declare delay_time.min := 0
+		declare delay_time.max := 2000
+		declare delay_fb.min := 0
+		declare delay_fb.max := 100
+		declare pitch.min := -12
+		declare pitch.max := 12
+	end family
+
+	family GroupAttributes { Family for audio file groups within Kontakt }
+		declare %startTunings[8] := (500000, 500000, 333333, 333333, 166667, 166667, 666667, 666667){ create array and populate it with original tunings of each group (normalized between 0 and a million)}
+	end family
+	for i := 0 to num_elements(GroupAttributes.startTunings) - 1 { Set the engine tuning parameters to the array }
+		group_fx_par(ENGINE_PAR_TUNE, GroupAttributes.startTunings[i], -1, i)
+	end for
+
+{* VARIABLES *
+**********************************************************************}
+
+{* ARRAYS *
+**********************************************************************}
+
+{*********************************************************************}
+{*********************************************************************}
+
+
+	make_perfview
+	set_script_title(title)
+	set_ui_height_px(ui_height - 68) { -68 because Kontakt adds it to it's picture size }
+
+	INST_WALLPAPER_ID -> picture := skin { Background image }
+
+	USE_CODE_IF(ENABLE_DEBUG)
+	    set_script_title("### " & title)
+	    if ui_height <= 540 
+    		set_ui_height_px(540)
+    	else 
+    		set_ui_height_px(ui_height)
+	    end if
+	END_USE_CODE
+end macro
+

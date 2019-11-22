@@ -1,0 +1,165 @@
+{ ---------------------------------------------------------------------
+Title: Model Library
+File: model.ksp
+Author: Wesley Coleman
+First Written: 
+Current Version: 1.0
+Last Modified:
+
+used for declaration of functions task functons and macros for specific projects
+----------------------------------------------------------------------}
+
+{ ******************************************************************** 
+* FUNCTIONS *
+**********************************************************************}
+
+function md.tabControlToggle(buttonSelected, buttonUnselected, fam_viewed, fam_hidden)
+	buttonSelected := 0
+	buttonUnselected := 1
+	set_family_visibility(fam_viewed, VISIBLE)
+	for i := 0 to Controls.labelCount - 1
+		set_control_par(Controls.labels[i], CONTROL_PAR_HIDE, HIDE_PART_BG)
+	end for
+	hide_part(lbl_speed, HIDE_PART_BG)
+	hide_part(lbl_speed_title, HIDE_PART_BG)
+	set_family_visibility(fam_hidden, INVISIBLE)
+	hide_part(ve_reverb, HIDE_WHOLE_CONTROL)
+
+end function
+
+function md.toggleBypass(switch, slot) { Bypass Buttons }
+		set_engine_par(ENGINE_PAR_EFFECT_BYPASS, switch, -1, slot, -1)
+end function
+
+
+function md.scale(control1, control2) { Scale one controller and map it to another }
+	declare ~c1 := int_to_real(control1)
+	declare ~range1 := int_to_real((control1 -> max) - (control1 -> min))
+	declare ~range2 := int_to_real((control2 -> max) - (control2 -> min))
+	declare ~norm := (~c1 - int_to_real((control1 -> min))) / ~range1
+	control2 := real_to_int(~norm * ~range2 + int_to_real(control2 -> min))
+end function
+
+
+function md.returnScaled(control1, control2) -> return { scale between controllers but instead of mapping it immediately to another we just returned the scaled form of the second controller }
+	// declare ~c1 := int_to_real(control1)
+	// declare ~range1 := int_to_real((control1 -> max) - (control1 -> min))
+	// declare ~range2 := int_to_real((control2 -> max) - (control2 -> min))
+	// declare ~norm := (~c1 - int_to_real((control1 -> min))) / ~range1
+	// return := real_to_int(~norm * ~range2 + int_to_real(control2 -> min))
+	return := real_to_int(((int_to_real(control1) - int_to_real((control1 -> min))) / (int_to_real((control1 -> max) - (control1 -> min)))) * (int_to_real((control2 -> max) - (control2 -> min))) + int_to_real(control2 -> min))
+end function
+
+
+function md.returnScaledToRange(control1, rangeMin, rangeMax) -> return { Scale single controller and output within new range }
+	// declare ~c1 := int_to_real(control1)
+	// declare ~range1 := int_to_real((control1 -> max) - (control1 -> min))
+	// declare ~range2 := int_to_real((control2 -> max) - (control2 -> min))
+	// declare ~norm := (~c1 - int_to_real((control1 -> min))) / ~range1
+	// return := real_to_int(~norm * ~range2 + int_to_real(control2 -> min))
+	return := real_to_int(((int_to_real(control1)) - int_to_real((control1 -> min))) / (int_to_real((control1 -> max) - (control1 -> min))) * (int_to_real(rangeMax - rangeMin)) + int_to_real(rangeMin))
+end function
+
+
+function md.returnScaledDefault(control1, control2) -> return { return the default of the first controller scaled to the second controller }
+	// declare ~c1 := int_to_real(control1 -> default)
+	// declare ~range1 := int_to_real((control1 -> max) - (control1 -> min))
+	// declare ~range2 := int_to_real((control2 -> max) - (control2 -> min))
+	// declare ~norm := (~c1 - int_to_real((control1 -> min))) / ~range1
+	// return := real_to_int(~norm * ~range2 + int_to_real(control2 -> min))
+	return := real_to_int((((int_to_real(control1 -> default)) - int_to_real((control1 -> min))) / (int_to_real((control1 -> max) - (control1 -> min)))) * (int_to_real((control2 -> max) - (control2 -> min))) + int_to_real(control2 -> min))
+end function
+
+
+function md.addToArray(array, index, item) { quickly add to a global array }
+	array[index] := get_ui_id(item)
+	inc(index)
+end function
+
+{ Main Controls Engine }
+
+function md.setSaturation(ctl1, ctl2, actualControl)
+	insert_fx_par(ENGINE_PAR_SHAPE, actualControl, 0)
+	md.scale(ctl1, ctl2)
+end function
+
+
+function md.setCutoff(ctl1, ctl2, actualControl)
+	insert_fx_par(ENGINE_PAR_CUTOFF, actualControl, 1)
+	md.scale(ctl1, ctl2)
+end function
+
+
+function md.setDelayTime(ctl1, ctl2, actualControl)
+	insert_fx_par(ENGINE_PAR_RDL_TIME, actualControl, 2)
+	md.scale(ctl1, ctl2)
+end function
+
+
+function md.setDelayFB(ctl1, ctl2, actualControl)
+	insert_fx_par(ENGINE_PAR_RDL_FEEDBACK, actualControl, 2)
+	md.scale(ctl1, ctl2)
+end function
+
+
+function md.setReverb(ctl1, ctl2, actualControl)
+	insert_fx_par(ENGINE_PAR_RV2_TIME, actualControl, 3)
+	md.scale(ctl1, ctl2)
+end function
+
+{ Secondary Controls Engine }
+
+function md.changePitch(ctl1, ctl2, actualControl)
+
+	md.scale(ctl1, ctl2){ link controls in UI }
+
+	declare tuningDelta := md.returnScaledToRange(actualControl, -166666, 166666){ scale the 0 to Million slider to 1 octave up and 1 octave down }
+
+	for i := 0 to NUM_GROUPS - 1
+		if (in_range(i, 0, 1)){ no startTuning adjustment }
+			group_fx_par(ENGINE_PAR_TUNE, GroupAttributes.startTunings[i] + tuningDelta, -1, i){ add the change in tuning to the original tunings }
+			// message(startTuning + tuningDelta)
+		else if (in_range(i, 2, 3)){ octave lower }
+			group_fx_par(ENGINE_PAR_TUNE, GroupAttributes.startTunings[i] + tuningDelta, -1, i)
+		else if (in_range(i, 4, 5)){ 2 octaves lower }
+			group_fx_par(ENGINE_PAR_TUNE, GroupAttributes.startTunings[i] + tuningDelta, -1, i)
+		else if (in_range(i, 6, 7)){ 1 octave higher }
+			group_fx_par(ENGINE_PAR_TUNE, GroupAttributes.startTunings[i] + tuningDelta, -1, i)
+		else 
+			message('i is outside of bounds')
+		end if
+	end for
+end function
+
+
+function md.changeSpeed(ctl, lbl)
+	for i := 0 to NUM_GROUPS - 1
+		group_fx_par(ENGINE_PAR_SPEED, ctl, -1, i)
+	end for
+	set_text(lbl, get_engine_par_disp(ENGINE_PAR_SPEED, 0, -1, -1) & "%")
+end function
+
+
+
+
+{ ******************************************************************** 
+* MACROS *
+**********************************************************************}
+
+macro md.uiSliderAndVE(#name#, fam, x, y, min, max, defaultValue, text, suffix)
+	create_slider(sli_#name#, fam, x, y, -1, -1, 0, MIL, 0, PERSISTENT, -2500, 'fader')
+	read_persistent_var(sli_#name#)
+	create_value_edit(ve_#name#, fam, x + 9 , y + 50, 60, min, max, defaultValue, 1, PERSISTENT, BOLD.BLACK, -1)
+	md.addToArray(Controls.labels, Controls.labelCount, ve_#name#)
+	read_persistent_var(ve_#name#)
+	create_text_label(lbl_#name#, fam, x - 5, y - 30, 80, 15, text, BOLD.BLACK, LEFT, 1)
+	md.addToArray(Controls.labels, Controls.labelCount, lbl_#name#)
+	create_text_label(lbl_suf_#name#, fam, x + 9 , y + 51, 70, 15, suffix, BOLD.BLACK, RIGHT, 1)
+	md.addToArray(Controls.labels, Controls.labelCount, lbl_suf_#name#)
+	hide_part(lbl_#name#, HIDE_PART_BG)
+	hide_part(lbl_suf_#name#, HIDE_PART_BG)
+	hide_part(ve_#name#, HIDE_PART_BG)
+	md.scale(ve_#name#, sli_#name#)
+	sli_#name# -> default := md.returnScaledDefault(ve_#name#, sli_#name#)
+end macro
+

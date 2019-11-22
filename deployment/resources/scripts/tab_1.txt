@@ -1,0 +1,1752 @@
+{ Compiled on Tue Nov 12 10:59:05 2019 }
+on init
+  declare $concat_it
+  declare $concat_offset
+  declare $string_it
+  declare $list_it
+  declare !_log[32768]
+  declare $logger_count
+  !_log[$logger_count] := "--- Logger Started ---"
+  $logger_count := ($logger_count+1) mod 32768
+  declare $logger_previous_count
+  declare @logger_filepath
+  declare $LOGGER_ASYNC_ID
+  @logger_filepath := get_folder($GET_FOLDER_PATCH_DIR) & "/log.nka"
+  declare $INST_HEIGHT
+  declare $INST_WIDTH
+  declare $INST_COLOR
+  declare const $MAX_ARRAY_SIZE := 32768
+  declare const $MAX_GROUPS := 4096
+  declare const $_MAX_KSP_VALUE := 2147483647
+  declare const $_MIN_KSP_VALUE := 080000000h
+  declare const $ON := 1
+  declare const $OFF := 0
+  declare const $YES := 1
+  declare const $NO := 0
+  declare const $TRUE := 1
+  declare const $FALSE := 0
+  declare const $NONE := -1
+  declare $_j
+  declare $_k
+  declare $_i
+  declare @_txt
+  declare $CTRL_TOUCHED := -1
+  declare const $SWITCHES := 1
+  declare const $BUTTONS := 2
+  declare const $KNOBS := 3
+  declare const $TEXT_LABELS := 4
+  declare const $PIC_LABELS := 5
+  declare const $MENUS := 6
+  declare const $FILE_SELECTOR := 7
+  declare const $VALUE_EDITS := 8
+  declare const $SLIDERS := 9
+  declare const $TABLES := 10
+  declare const $LEVEL_METERS := 11
+  declare const $WAVEFORMS := 12
+  declare const $TEXT_EDITS := 13
+  declare const $XY_PADS := 14
+  declare %CONSOLE[9] := (100, 10, 3, 11, 8, 2, 9, 4, 6)
+  declare const $CONSOLE__SIZE := 9
+  declare const $CONSOLE__WHITE := 100
+  declare const $CONSOLE__LIGHTGREY := 10
+  declare const $CONSOLE__GREY1 := 3
+  declare const $CONSOLE__GREY2 := 11
+  declare const $CONSOLE__DARKGREY1 := 8
+  declare const $CONSOLE__DARKGREY2 := 2
+  declare const $CONSOLE__BLACK := 9
+  declare const $CONSOLE__YELLOW := 4
+  declare const $CONSOLE__RED := 6
+  declare %REGULAR[7] := (18, 13, 14, 23, 15, 12, 22)
+  declare const $REGULAR__SIZE := 7
+  declare const $REGULAR__WHITE := 18
+  declare const $REGULAR__LIGHTGREY := 13
+  declare const $REGULAR__GREY1 := 14
+  declare const $REGULAR__GREY2 := 23
+  declare const $REGULAR__DARKGREY1 := 15
+  declare const $REGULAR__DARKGREY2 := 12
+  declare const $REGULAR__BLACK := 22
+  declare %BOLD[8] := (17, 1, 20, 21, 16, 19, 5, 7)
+  declare const $BOLD__SIZE := 8
+  declare const $BOLD__WHITE := 17
+  declare const $BOLD__LIGHTGREY := 1
+  declare const $BOLD__GREY1 := 20
+  declare const $BOLD__GREY2 := 21
+  declare const $BOLD__DARKGREY1 := 16
+  declare const $BOLD__BLACK := 19
+  declare const $BOLD__YELLOW := 5
+  declare const $BOLD__RED := 7
+  declare %COLOR[29] := (0, 16777215, 16711680, 65280, 16711935, 15605837, 16525383, 13320532, 2061822, 1879160, 16719310, 16147631, 16574595, 16777113, 1944790, 13485506, 9802124, 1964308, 1409144, 7855591, 12805317, 8444651, 7619272, 16741688, 11822925, 10840399, 14521461, 15715768, 16764744)
+  declare const $COLOR__SIZE := 29
+  declare const $COLOR__BLACK := 0
+  declare const $COLOR__WHITE := 16777215
+  declare const $COLOR__LED_R := 16711680
+  declare const $COLOR__LED_G := 65280
+  declare const $COLOR__LED_B := 16711935
+  declare const $COLOR__RED := 15605837
+  declare const $COLOR__SCARLET := 16525383
+  declare const $COLOR__BRICK_RED := 13320532
+  declare const $COLOR__BLUE := 2061822
+  declare const $COLOR__GREEN := 1879160
+  declare const $COLOR__HOT_MAGENTA := 16719310
+  declare const $COLOR__MAGENTA := 16147631
+  declare const $COLOR__YELLOW := 16574595
+  declare const $COLOR__CANARY := 16777113
+  declare const $COLOR__CERULEAN := 1944790
+  declare const $COLOR__SILVER := 13485506
+  declare const $COLOR__GREY := 9802124
+  declare const $COLOR__LIME := 1964308
+  declare const $COLOR__PINE_GREEN := 1409144
+  declare const $COLOR__TURQUOISE := 7855591
+  declare const $COLOR__FUCHSIA := 12805317
+  declare const $COLOR__SKY_BLUE := 8444651
+  declare const $COLOR__PURPLE := 7619272
+  declare const $COLOR__ORANGE := 16741688
+  declare const $COLOR__BROWN := 11822925
+  declare const $COLOR__SEPIA := 10840399
+  declare const $COLOR__COPPER := 14521461
+  declare const $COLOR__SAND := 15715768
+  declare const $COLOR__SUNGLOW := 16764744
+  declare const $LEFT := 0
+  declare const $CENTER := 1
+  declare const $RIGHT := 2
+  declare const $VISIBLE := 0
+  declare const $INVISIBLE := 16
+  declare const $LEFT_CH := 0
+  declare const $RIGHT_CH := 1
+  declare const $VERTICAL := 1
+  declare const $HORIZONTAL := 0
+  declare const $PERSISTENT := 1
+  declare const $NOT_PERSISTENT := 0
+  declare %XY[5] := (0, 1, 0, 1, 2)
+  declare const $XY__SIZE := 5
+  declare const $XY__AXIS_X := 0
+  declare const $XY__AXIS_Y := 1
+  declare const $XY__MOUSE_STD := 0
+  declare const $XY__MOUSE_FOLLOW := 1
+  declare const $XY__MOUSE_FORCE := 2
+  declare const $_EOA := -1
+  declare $_UI_COUNT := 0
+  declare %_UI_IDS[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_FAMILIES[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_TYPE[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_POS_X[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_POS_Y[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_WIDTH[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_HEIGHT[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_DEFAULT_VALUE[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_CURR_VISIBILITY[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_DEF_VISIBILITY[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare !_UI_PICTURE[$MAX_ARRAY_SIZE]
+  declare !_UI_TEXT[$MAX_ARRAY_SIZE]
+  declare %_UI_FONT_TYPE[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_FONT_ALIGNMENT[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_PICTURE_STATE[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare !_UI_CTRL_NAMES[$MAX_ARRAY_SIZE]
+  declare %_UI_CTRL_MIN[$MAX_ARRAY_SIZE] := ($_EOA)
+  declare %_UI_CTRL_MAX[$MAX_ARRAY_SIZE] := ($_EOA)
+  %_UI_IDS[0] := 0
+  %_UI_FAMILIES[0] := 0
+  %_UI_TYPE[0] := 0
+  %_UI_POS_X[0] := 0
+  %_UI_POS_Y[0] := 0
+  %_UI_CURR_VISIBILITY[0] := 0
+  %_UI_HEIGHT[0] := 0
+  %_UI_DEFAULT_VALUE[0] := 0
+  !_UI_PICTURE[0] := "N/A"
+  !_UI_TEXT[0] := "N/A"
+  %_UI_FONT_TYPE[0] := 0
+  %_UI_FONT_ALIGNMENT[0] := 0
+  %_UI_PICTURE_STATE[0] := 0
+  !_UI_CTRL_NAMES[0] := "N/A"
+  %_UI_CTRL_MIN[0] := 0
+  %_UI_CTRL_MAX[0] := 0
+  declare const $0_dB_12 := 630000
+  declare const $0_dB_24 := 397000
+  declare const $ALL_FAMILIES := $_MAX_KSP_VALUE
+  declare const $ALL_TYPES := $_MAX_KSP_VALUE
+  declare const $MASK__1 := 1
+  declare const $MASK__2 := 2
+  declare const $MASK__3 := 4
+  declare const $MASK__4 := 8
+  declare const $MASK__5 := 16
+  declare const $MASK__6 := 32
+  declare const $MASK__7 := 64
+  declare const $MASK__8 := 128
+  declare const $MASK__9 := 256
+  declare const $MASK__10 := 512
+  declare const $MASK__11 := 1024
+  declare const $MASK__12 := 2048
+  declare const $MASK__13 := 4096
+  declare const $MASK__14 := 8192
+  declare const $MASK__15 := 16384
+  declare const $MASK__16 := 32768
+  declare const $MASK__17 := 65536
+  declare const $MASK__18 := 131072
+  declare const $MASK__19 := 262144
+  declare const $MASK__20 := 524288
+  declare const $MASK__21 := 1048576
+  declare const $MASK__22 := 2097152
+  declare const $MASK__23 := 4194304
+  declare const $MASK__24 := 8388608
+  declare const $MASK__25 := 16777216
+  declare const $MASK__26 := 33554432
+  declare const $MASK__27 := 67108864
+  declare const $MASK__28 := 134217728
+  declare const $MASK__29 := 268435456
+  declare const $MASK__30 := 536870912
+  declare const $MASK__31 := 1073741824
+  declare const $MASK__32 := 080000000h
+  declare const $NORMAL := 1
+  declare const $INVERT := 2
+  declare const $SORT_ASC := 4
+  declare const $SORT_DESC := 8
+  declare $_SMALLEST_ARR
+  declare const $ALL_ROWS := 90000
+  declare const $SEQUENTIAL := 1
+  declare const $MIXED := 2
+  declare $TIMES_STARTED
+  read_persistent_var($TIMES_STARTED)
+  inc($TIMES_STARTED)
+  make_persistent($TIMES_STARTED)
+  declare @timer
+  declare !NOTE_NAME[127]
+  declare const $NOTE_NAME__SIZE := 127
+  !NOTE_NAME[0] := "C-2"
+  !NOTE_NAME[1] := "C#-2"
+  !NOTE_NAME[2] := "D-2"
+  !NOTE_NAME[3] := "D#-2"
+  !NOTE_NAME[4] := "E-2"
+  !NOTE_NAME[5] := "F-2"
+  !NOTE_NAME[6] := "F#-2"
+  !NOTE_NAME[7] := "G-2"
+  !NOTE_NAME[8] := "G#-2"
+  !NOTE_NAME[9] := "A-2"
+  !NOTE_NAME[10] := "A#-2"
+  !NOTE_NAME[11] := "B-2"
+  !NOTE_NAME[12] := "C-1"
+  !NOTE_NAME[13] := "C#-1"
+  !NOTE_NAME[14] := "D-1"
+  !NOTE_NAME[15] := "D#-1"
+  !NOTE_NAME[16] := "E-1"
+  !NOTE_NAME[17] := "F-1"
+  !NOTE_NAME[18] := "F#-1"
+  !NOTE_NAME[19] := "G-1"
+  !NOTE_NAME[20] := "G#-1"
+  !NOTE_NAME[21] := "A-1"
+  !NOTE_NAME[22] := "A#-1"
+  !NOTE_NAME[23] := "B-1"
+  !NOTE_NAME[24] := "C0"
+  !NOTE_NAME[25] := "C#0"
+  !NOTE_NAME[26] := "D0"
+  !NOTE_NAME[27] := "D#0"
+  !NOTE_NAME[28] := "E0"
+  !NOTE_NAME[29] := "F0"
+  !NOTE_NAME[30] := "F#0"
+  !NOTE_NAME[31] := "G0"
+  !NOTE_NAME[32] := "G#0"
+  !NOTE_NAME[33] := "A0"
+  !NOTE_NAME[34] := "A#0"
+  !NOTE_NAME[35] := "B0"
+  !NOTE_NAME[36] := "C1"
+  !NOTE_NAME[37] := "C#1"
+  !NOTE_NAME[38] := "D1"
+  !NOTE_NAME[39] := "D#1"
+  !NOTE_NAME[40] := "E1"
+  !NOTE_NAME[41] := "F1"
+  !NOTE_NAME[42] := "F#1"
+  !NOTE_NAME[43] := "G1"
+  !NOTE_NAME[44] := "G#1"
+  !NOTE_NAME[45] := "A1"
+  !NOTE_NAME[46] := "A#1"
+  !NOTE_NAME[47] := "B1"
+  !NOTE_NAME[48] := "C2"
+  !NOTE_NAME[49] := "C#2"
+  !NOTE_NAME[50] := "D2"
+  !NOTE_NAME[51] := "D#2"
+  !NOTE_NAME[52] := "E2"
+  !NOTE_NAME[53] := "F2"
+  !NOTE_NAME[54] := "F#2"
+  !NOTE_NAME[55] := "G2"
+  !NOTE_NAME[56] := "G#2"
+  !NOTE_NAME[57] := "A2"
+  !NOTE_NAME[58] := "A#2"
+  !NOTE_NAME[59] := "B2"
+  !NOTE_NAME[60] := "C3"
+  !NOTE_NAME[61] := "C#3"
+  !NOTE_NAME[62] := "D3"
+  !NOTE_NAME[63] := "D#3"
+  !NOTE_NAME[64] := "E3"
+  !NOTE_NAME[65] := "F3"
+  !NOTE_NAME[66] := "F#3"
+  !NOTE_NAME[67] := "G3"
+  !NOTE_NAME[68] := "G#3"
+  !NOTE_NAME[69] := "A3"
+  !NOTE_NAME[70] := "A#3"
+  !NOTE_NAME[71] := "B3"
+  !NOTE_NAME[72] := "C4"
+  !NOTE_NAME[73] := "C#4"
+  !NOTE_NAME[74] := "D4"
+  !NOTE_NAME[75] := "D#4"
+  !NOTE_NAME[76] := "E4"
+  !NOTE_NAME[77] := "F4"
+  !NOTE_NAME[78] := "F#4"
+  !NOTE_NAME[79] := "G4"
+  !NOTE_NAME[80] := "G#4"
+  !NOTE_NAME[81] := "A4"
+  !NOTE_NAME[82] := "A#4"
+  !NOTE_NAME[83] := "B4"
+  !NOTE_NAME[84] := "C5"
+  !NOTE_NAME[85] := "C#5"
+  !NOTE_NAME[86] := "D5"
+  !NOTE_NAME[87] := "D#5"
+  !NOTE_NAME[88] := "E5"
+  !NOTE_NAME[89] := "F5"
+  !NOTE_NAME[90] := "F#5"
+  !NOTE_NAME[91] := "G5"
+  !NOTE_NAME[92] := "G#5"
+  !NOTE_NAME[93] := "A5"
+  !NOTE_NAME[94] := "A#5"
+  !NOTE_NAME[95] := "B5"
+  !NOTE_NAME[96] := "C6"
+  !NOTE_NAME[97] := "C#6"
+  !NOTE_NAME[98] := "D6"
+  !NOTE_NAME[99] := "D#6"
+  !NOTE_NAME[100] := "E6"
+  !NOTE_NAME[101] := "F6"
+  !NOTE_NAME[102] := "F#6"
+  !NOTE_NAME[103] := "G6"
+  !NOTE_NAME[104] := "G#6"
+  !NOTE_NAME[105] := "A6"
+  !NOTE_NAME[106] := "A#6"
+  !NOTE_NAME[107] := "B6"
+  !NOTE_NAME[108] := "C7"
+  !NOTE_NAME[109] := "C#7"
+  !NOTE_NAME[110] := "D7"
+  !NOTE_NAME[111] := "D#7"
+  !NOTE_NAME[112] := "E7"
+  !NOTE_NAME[113] := "F7"
+  !NOTE_NAME[114] := "F#7"
+  !NOTE_NAME[115] := "G7"
+  !NOTE_NAME[116] := "G#7"
+  !NOTE_NAME[117] := "A7"
+  !NOTE_NAME[118] := "A#7"
+  !NOTE_NAME[119] := "B7"
+  !NOTE_NAME[120] := "C8"
+  !NOTE_NAME[121] := "C#8"
+  !NOTE_NAME[122] := "D8"
+  !NOTE_NAME[123] := "D#8"
+  !NOTE_NAME[124] := "E8"
+  !NOTE_NAME[125] := "F8"
+  !NOTE_NAME[126] := "F#8"
+  declare !CC_NAME[128]
+  declare const $CC_NAME__SIZE := 128
+  !CC_NAME[0] := "Bank Select"
+  !CC_NAME[1] := "Mod Wheel"
+  !CC_NAME[2] := "Breath Ctrl"
+  !CC_NAME[3] := "Undefined"
+  !CC_NAME[4] := "Foot Ctrl"
+  !CC_NAME[5] := "Port. Time"
+  !CC_NAME[6] := "Data Entry MSB"
+  !CC_NAME[7] := "Volume"
+  !CC_NAME[8] := "Balance"
+  !CC_NAME[9] := "Undefined"
+  !CC_NAME[10] := "Pan"
+  !CC_NAME[11] := "Expression"
+  !CC_NAME[12] := "FX Ctrl 1"
+  !CC_NAME[13] := "FX Ctrl 2"
+  !CC_NAME[14] := "Undefined"
+  !CC_NAME[15] := "Undefined"
+  !CC_NAME[16] := "Generic"
+  !CC_NAME[17] := "Generic"
+  !CC_NAME[18] := "Generic"
+  !CC_NAME[19] := "Generic"
+  !CC_NAME[20] := "Undefined"
+  !CC_NAME[21] := "Undefined"
+  !CC_NAME[22] := "Undefined"
+  !CC_NAME[23] := "Undefined"
+  !CC_NAME[24] := "Undefined"
+  !CC_NAME[25] := "Undefined"
+  !CC_NAME[26] := "Undefined"
+  !CC_NAME[27] := "Undefined"
+  !CC_NAME[28] := "Undefined"
+  !CC_NAME[29] := "Undefined"
+  !CC_NAME[30] := "Undefined"
+  !CC_NAME[31] := "Undefined"
+  !CC_NAME[32] := "Bank Select LSB"
+  !CC_NAME[33] := "Mod Wheel LSB"
+  !CC_NAME[34] := "Breath Ctrl LSB"
+  !CC_NAME[35] := "Undefined"
+  !CC_NAME[36] := "Foot Ctrl LSB"
+  !CC_NAME[37] := "Port. Time LSB"
+  !CC_NAME[38] := "Data Entry LSB"
+  !CC_NAME[39] := "Volume LSB"
+  !CC_NAME[40] := "Balance LSB"
+  !CC_NAME[41] := "Undefined"
+  !CC_NAME[42] := "Pan LSB"
+  !CC_NAME[43] := "Expression LSB"
+  !CC_NAME[44] := "FX Ctrl 1 LSB"
+  !CC_NAME[45] := "FX Ctrl 2 LSB"
+  !CC_NAME[46] := "Undefined"
+  !CC_NAME[47] := "Undefined"
+  !CC_NAME[48] := "Generic LSB"
+  !CC_NAME[49] := "Generic LSB"
+  !CC_NAME[50] := "Generic LSB"
+  !CC_NAME[51] := "Generic LSB"
+  !CC_NAME[52] := "Undefined"
+  !CC_NAME[53] := "Undefined"
+  !CC_NAME[54] := "Undefined"
+  !CC_NAME[55] := "Undefined"
+  !CC_NAME[56] := "Undefined"
+  !CC_NAME[57] := "Undefined"
+  !CC_NAME[58] := "Undefined"
+  !CC_NAME[59] := "Undefined"
+  !CC_NAME[60] := "Undefined"
+  !CC_NAME[61] := "Undefined"
+  !CC_NAME[62] := "Undefined"
+  !CC_NAME[63] := "Undefined"
+  !CC_NAME[64] := "Sustain Pdl"
+  !CC_NAME[65] := "Port. On/Off"
+  !CC_NAME[66] := "Sostenuto On/Off"
+  !CC_NAME[67] := "Soft Pdl On/Off"
+  !CC_NAME[68] := "Legato On/Off"
+  !CC_NAME[69] := "Hold 2"
+  !CC_NAME[70] := "Sound Ctrl 1"
+  !CC_NAME[71] := "Sound Ctrl 2"
+  !CC_NAME[72] := "Sound Ctrl 3"
+  !CC_NAME[73] := "Sound Ctrl 4"
+  !CC_NAME[74] := "Sound Ctrl 5"
+  !CC_NAME[75] := "Sound Ctrl 6"
+  !CC_NAME[76] := "Sound Ctrl 7"
+  !CC_NAME[77] := "Sound Ctrl 8"
+  !CC_NAME[78] := "Sound Ctrl 9"
+  !CC_NAME[79] := "Sound Ctrl 10"
+  !CC_NAME[80] := "Generic"
+  !CC_NAME[81] := "Generic"
+  !CC_NAME[82] := "Generic"
+  !CC_NAME[83] := "Generic"
+  !CC_NAME[84] := "Port. Amount"
+  !CC_NAME[85] := "Undefined"
+  !CC_NAME[86] := "Undefined"
+  !CC_NAME[87] := "Undefined"
+  !CC_NAME[88] := "Undefined"
+  !CC_NAME[89] := "Undefined"
+  !CC_NAME[90] := "Undefined"
+  !CC_NAME[91] := "FX 1 Depth"
+  !CC_NAME[92] := "FX 2 Depth"
+  !CC_NAME[93] := "FX 3 Depth"
+  !CC_NAME[94] := "FX 4 Depth"
+  !CC_NAME[95] := "FX 5 Depth"
+  !CC_NAME[96] := "+1 Data Incr."
+  !CC_NAME[97] := "-1 Data Decr."
+  !CC_NAME[98] := "NRPN LSB"
+  !CC_NAME[99] := "NRPN MSB"
+  !CC_NAME[100] := "RPN LSB"
+  !CC_NAME[101] := "RPN MSB"
+  !CC_NAME[102] := "Undefined"
+  !CC_NAME[103] := "Undefined"
+  !CC_NAME[104] := "Undefined"
+  !CC_NAME[105] := "Undefined"
+  !CC_NAME[106] := "Undefined"
+  !CC_NAME[107] := "Undefined"
+  !CC_NAME[108] := "Undefined"
+  !CC_NAME[109] := "Undefined"
+  !CC_NAME[110] := "Undefined"
+  !CC_NAME[111] := "Undefined"
+  !CC_NAME[112] := "Undefined"
+  !CC_NAME[113] := "Undefined"
+  !CC_NAME[114] := "Undefined"
+  !CC_NAME[115] := "Undefined"
+  !CC_NAME[116] := "Undefined"
+  !CC_NAME[117] := "Undefined"
+  !CC_NAME[118] := "Undefined"
+  !CC_NAME[119] := "Undefined"
+  !CC_NAME[120] := "All Sound Off"
+  !CC_NAME[121] := "Reset All Ctrls"
+  !CC_NAME[122] := "Local On/Off"
+  !CC_NAME[123] := "All Notes Off"
+  !CC_NAME[124] := "Omni Mode Off"
+  !CC_NAME[125] := "Omni Mode On"
+  !CC_NAME[126] := "Mono Mode"
+  !CC_NAME[127] := "Poly Mode"
+  declare %GRP__folders[$MAX_GROUPS] := ($_EOA)
+  declare %GRP__selected_folder[$MAX_GROUPS] := ($_EOA)
+  declare $GRP__folder_ids := 0
+  declare $math__i
+  declare const ~MATH_SQRT2 := 1.4142135623731
+  declare const ~MATH_LOG2E := 1.44269504088896
+  declare const ~MATH_LOG10E := 0.434294481903252
+  declare const ~MATH_LN2 := 0.693147180559945
+  declare const ~MATH_LN10 := 2.30258509299405
+  declare const ~MATH_2PI := 6.28318530717959
+  declare const ~MATH_4PI := 12.5663706143592
+  declare const ~MATH_PI_2 := 1.5707963267949
+  declare const ~MATH_PI_4 := 0.785398163397448
+  declare const ~MATH_TWRT2 := 1.0594630943593
+  declare $bool__i
+  declare $i
+  declare $ii
+  declare $x
+  declare $y
+  declare const $MIL := 1000000
+  declare const $App__LOW_KEY := 0
+  declare const $App__HIGH_KEY := 127
+  declare %Controls__labels[$MAX_ARRAY_SIZE] := (0)
+  declare $Controls__labelCount := 0
+  declare %GroupAttributes__startTunings[8] := (500000, 500000, 333333, 333333, 166667, 166667, 666667, 666667)
+  $i := 0
+  while ($i<num_elements(%GroupAttributes__startTunings))
+    set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i],$i,-1,-1)
+    inc($i)
+  end while
+  make_perfview
+  set_script_title("Guitremolo")
+  set_ui_height_px(421-68)
+  set_control_par_str($INST_WALLPAPER_ID,$CONTROL_PAR_PICTURE,"skin")
+  declare const $tabControls := 0
+  declare ui_button $btn_main_control
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($btn_main_control)
+  %_UI_FAMILIES[$_UI_COUNT] := $tabControls
+  %_UI_POS_X[$_UI_COUNT] := 180
+  %_UI_POS_Y[$_UI_COUNT] := 50
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  !_UI_TEXT[$_UI_COUNT] := "Main"
+  !_UI_PICTURE[$_UI_COUNT] := "tab"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := $ON
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $BUTTONS
+  set_control_par(get_ui_id($btn_main_control),$CONTROL_PAR_POS_X,180)
+  set_control_par(get_ui_id($btn_main_control),$CONTROL_PAR_POS_Y,50)
+  set_control_par(get_ui_id($btn_main_control),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($btn_main_control),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($btn_main_control),$CONTROL_PAR_DEFAULT_VALUE,$ON)
+  set_control_par(get_ui_id($btn_main_control),$CONTROL_PAR_VALUE,$ON)
+  set_control_par_str(get_ui_id($btn_main_control),$CONTROL_PAR_PICTURE,"tab")
+  set_control_par_str(get_ui_id($btn_main_control),$CONTROL_PAR_TEXT,"Main")
+  if ($NOT_PERSISTENT=$PERSISTENT)
+    make_persistent($btn_main_control)
+  end if
+  declare ui_button $btn_secondary_control
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($btn_secondary_control)
+  %_UI_FAMILIES[$_UI_COUNT] := $tabControls
+  %_UI_POS_X[$_UI_COUNT] := 247
+  %_UI_POS_Y[$_UI_COUNT] := 50
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  !_UI_TEXT[$_UI_COUNT] := "Pitch + Time"
+  !_UI_PICTURE[$_UI_COUNT] := "tab"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := $OFF
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $BUTTONS
+  set_control_par(get_ui_id($btn_secondary_control),$CONTROL_PAR_POS_X,247)
+  set_control_par(get_ui_id($btn_secondary_control),$CONTROL_PAR_POS_Y,50)
+  set_control_par(get_ui_id($btn_secondary_control),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($btn_secondary_control),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($btn_secondary_control),$CONTROL_PAR_DEFAULT_VALUE,$OFF)
+  set_control_par(get_ui_id($btn_secondary_control),$CONTROL_PAR_VALUE,$OFF)
+  set_control_par_str(get_ui_id($btn_secondary_control),$CONTROL_PAR_PICTURE,"tab")
+  set_control_par_str(get_ui_id($btn_secondary_control),$CONTROL_PAR_TEXT,"Pitch + Time")
+  if ($NOT_PERSISTENT=$PERSISTENT)
+    make_persistent($btn_secondary_control)
+  end if
+  declare const $mainControls := 1
+  declare ui_slider $sli_dist(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_dist)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 130
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_POS_X,130)
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($sli_dist),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_dist)
+  end if
+  read_persistent_var($sli_dist)
+  declare ui_value_edit $ve_dist(-100, 100, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($ve_dist)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 130+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+50
+  %_UI_WIDTH[$_UI_COUNT] := 60
+  %_UI_HEIGHT[$_UI_COUNT] := 0
+  %_UI_CTRL_MIN[$_UI_COUNT] := -100
+  %_UI_CTRL_MAX[$_UI_COUNT] := 100
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $VALUE_EDITS
+  set_control_par(get_ui_id($ve_dist),$CONTROL_PAR_POS_X,130+9)
+  set_control_par(get_ui_id($ve_dist),$CONTROL_PAR_POS_Y,106+50)
+  set_control_par(get_ui_id($ve_dist),$CONTROL_PAR_WIDTH,60)
+  set_control_par(get_ui_id($ve_dist),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($ve_dist),$CONTROL_PAR_VALUE,0)
+  set_control_par(get_ui_id($ve_dist),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par_str(get_ui_id($ve_dist),$CONTROL_PAR_PICTURE,-1)
+  set_control_par_str(get_ui_id($ve_dist),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($ve_dist)
+  end if
+  %Controls__labels[$Controls__labelCount] := get_ui_id($ve_dist)
+  inc($Controls__labelCount)
+  read_persistent_var($ve_dist)
+  declare ui_label $lbl_dist(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_dist)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 130-5
+  %_UI_POS_Y[$_UI_COUNT] := 106-30
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "Saturation"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $LEFT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_dist),$CONTROL_PAR_POS_X,130-5)
+  set_control_par(get_ui_id($lbl_dist),$CONTROL_PAR_POS_Y,106-30)
+  set_control_par(get_ui_id($lbl_dist),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_dist),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_dist),$CONTROL_PAR_TEXT,"Saturation")
+  set_control_par(get_ui_id($lbl_dist),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_dist),$CONTROL_PAR_TEXT_ALIGNMENT,$LEFT)
+  set_control_par_str(get_ui_id($lbl_dist),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_dist)
+  inc($Controls__labelCount)
+  declare ui_label $lbl_suf_dist(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_suf_dist)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 130+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+51
+  %_UI_WIDTH[$_UI_COUNT] := 70
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := " %"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_suf_dist),$CONTROL_PAR_POS_X,130+9)
+  set_control_par(get_ui_id($lbl_suf_dist),$CONTROL_PAR_POS_Y,106+51)
+  set_control_par(get_ui_id($lbl_suf_dist),$CONTROL_PAR_WIDTH,70)
+  set_control_par(get_ui_id($lbl_suf_dist),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_suf_dist),$CONTROL_PAR_TEXT," %")
+  set_control_par(get_ui_id($lbl_suf_dist),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_suf_dist),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_suf_dist),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_suf_dist)
+  inc($Controls__labelCount)
+  hide_part($lbl_dist,$HIDE_PART_BG)
+  hide_part($lbl_suf_dist,$HIDE_PART_BG)
+  hide_part($ve_dist,$HIDE_PART_BG)
+  declare ~_c1
+  declare ~_range1
+  declare ~_range2
+  declare ~_norm
+  ~_c1 := int_to_real($ve_dist)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_dist := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE)))
+  set_control_par(get_ui_id($sli_dist),$CONTROL_PAR_DEFAULT_VALUE,real_to_int((int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_DEFAULT_VALUE))-int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE))*int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE))+int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE))))
+  declare ui_slider $sli_cutoff(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_cutoff)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 230
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_POS_X,230)
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($sli_cutoff),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_cutoff)
+  end if
+  read_persistent_var($sli_cutoff)
+  declare ui_value_edit $ve_cutoff(26, 19900, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($ve_cutoff)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 230+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+50
+  %_UI_WIDTH[$_UI_COUNT] := 60
+  %_UI_HEIGHT[$_UI_COUNT] := 0
+  %_UI_CTRL_MIN[$_UI_COUNT] := 26
+  %_UI_CTRL_MAX[$_UI_COUNT] := 19900
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 6000
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $VALUE_EDITS
+  set_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_POS_X,230+9)
+  set_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_POS_Y,106+50)
+  set_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_WIDTH,60)
+  set_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_DEFAULT_VALUE,6000)
+  set_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_VALUE,6000)
+  set_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par_str(get_ui_id($ve_cutoff),$CONTROL_PAR_PICTURE,-1)
+  set_control_par_str(get_ui_id($ve_cutoff),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($ve_cutoff)
+  end if
+  %Controls__labels[$Controls__labelCount] := get_ui_id($ve_cutoff)
+  inc($Controls__labelCount)
+  read_persistent_var($ve_cutoff)
+  declare ui_label $lbl_cutoff(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_cutoff)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 230-5
+  %_UI_POS_Y[$_UI_COUNT] := 106-30
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "Cutoff"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $LEFT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_cutoff),$CONTROL_PAR_POS_X,230-5)
+  set_control_par(get_ui_id($lbl_cutoff),$CONTROL_PAR_POS_Y,106-30)
+  set_control_par(get_ui_id($lbl_cutoff),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_cutoff),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_cutoff),$CONTROL_PAR_TEXT,"Cutoff")
+  set_control_par(get_ui_id($lbl_cutoff),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_cutoff),$CONTROL_PAR_TEXT_ALIGNMENT,$LEFT)
+  set_control_par_str(get_ui_id($lbl_cutoff),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_cutoff)
+  inc($Controls__labelCount)
+  declare ui_label $lbl_suf_cutoff(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_suf_cutoff)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 230+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+51
+  %_UI_WIDTH[$_UI_COUNT] := 70
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := " Hz"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_POS_X,230+9)
+  set_control_par(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_POS_Y,106+51)
+  set_control_par(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_WIDTH,70)
+  set_control_par(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_TEXT," Hz")
+  set_control_par(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_suf_cutoff),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_suf_cutoff)
+  inc($Controls__labelCount)
+  hide_part($lbl_cutoff,$HIDE_PART_BG)
+  hide_part($lbl_suf_cutoff,$HIDE_PART_BG)
+  hide_part($ve_cutoff,$HIDE_PART_BG)
+  ~_c1 := int_to_real($ve_cutoff)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_cutoff := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE)))
+  set_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_DEFAULT_VALUE,real_to_int((int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_DEFAULT_VALUE))-int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE))*int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE))+int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE))))
+  declare ui_slider $sli_delay_time(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_delay_time)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 330
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_POS_X,330)
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($sli_delay_time),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_delay_time)
+  end if
+  read_persistent_var($sli_delay_time)
+  declare ui_value_edit $ve_delay_time(0, 2000, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($ve_delay_time)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 330+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+50
+  %_UI_WIDTH[$_UI_COUNT] := 60
+  %_UI_HEIGHT[$_UI_COUNT] := 0
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := 2000
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 1000
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $VALUE_EDITS
+  set_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_POS_X,330+9)
+  set_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_POS_Y,106+50)
+  set_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_WIDTH,60)
+  set_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_DEFAULT_VALUE,1000)
+  set_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_VALUE,1000)
+  set_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par_str(get_ui_id($ve_delay_time),$CONTROL_PAR_PICTURE,-1)
+  set_control_par_str(get_ui_id($ve_delay_time),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($ve_delay_time)
+  end if
+  %Controls__labels[$Controls__labelCount] := get_ui_id($ve_delay_time)
+  inc($Controls__labelCount)
+  read_persistent_var($ve_delay_time)
+  declare ui_label $lbl_delay_time(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_delay_time)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 330-5
+  %_UI_POS_Y[$_UI_COUNT] := 106-30
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "Delay Time"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $LEFT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_delay_time),$CONTROL_PAR_POS_X,330-5)
+  set_control_par(get_ui_id($lbl_delay_time),$CONTROL_PAR_POS_Y,106-30)
+  set_control_par(get_ui_id($lbl_delay_time),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_delay_time),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_delay_time),$CONTROL_PAR_TEXT,"Delay Time")
+  set_control_par(get_ui_id($lbl_delay_time),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_delay_time),$CONTROL_PAR_TEXT_ALIGNMENT,$LEFT)
+  set_control_par_str(get_ui_id($lbl_delay_time),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_delay_time)
+  inc($Controls__labelCount)
+  declare ui_label $lbl_suf_delay_time(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_suf_delay_time)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 330+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+51
+  %_UI_WIDTH[$_UI_COUNT] := 70
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := " ms"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_POS_X,330+9)
+  set_control_par(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_POS_Y,106+51)
+  set_control_par(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_WIDTH,70)
+  set_control_par(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_TEXT," ms")
+  set_control_par(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_suf_delay_time),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_suf_delay_time)
+  inc($Controls__labelCount)
+  hide_part($lbl_delay_time,$HIDE_PART_BG)
+  hide_part($lbl_suf_delay_time,$HIDE_PART_BG)
+  hide_part($ve_delay_time,$HIDE_PART_BG)
+  ~_c1 := int_to_real($ve_delay_time)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_delay_time := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE)))
+  set_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_DEFAULT_VALUE,real_to_int((int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_DEFAULT_VALUE))-int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE))*int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE))+int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE))))
+  declare ui_slider $sli_delay_fb(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_delay_fb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 430
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_POS_X,430)
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($sli_delay_fb),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_delay_fb)
+  end if
+  read_persistent_var($sli_delay_fb)
+  declare ui_value_edit $ve_delay_fb(0, 120, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($ve_delay_fb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 430+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+50
+  %_UI_WIDTH[$_UI_COUNT] := 60
+  %_UI_HEIGHT[$_UI_COUNT] := 0
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := 120
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 90
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $VALUE_EDITS
+  set_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_POS_X,430+9)
+  set_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_POS_Y,106+50)
+  set_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_WIDTH,60)
+  set_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_DEFAULT_VALUE,90)
+  set_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_VALUE,90)
+  set_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par_str(get_ui_id($ve_delay_fb),$CONTROL_PAR_PICTURE,-1)
+  set_control_par_str(get_ui_id($ve_delay_fb),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($ve_delay_fb)
+  end if
+  %Controls__labels[$Controls__labelCount] := get_ui_id($ve_delay_fb)
+  inc($Controls__labelCount)
+  read_persistent_var($ve_delay_fb)
+  declare ui_label $lbl_delay_fb(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_delay_fb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 430-5
+  %_UI_POS_Y[$_UI_COUNT] := 106-30
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "Feedback"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $LEFT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_delay_fb),$CONTROL_PAR_POS_X,430-5)
+  set_control_par(get_ui_id($lbl_delay_fb),$CONTROL_PAR_POS_Y,106-30)
+  set_control_par(get_ui_id($lbl_delay_fb),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_delay_fb),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_delay_fb),$CONTROL_PAR_TEXT,"Feedback")
+  set_control_par(get_ui_id($lbl_delay_fb),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_delay_fb),$CONTROL_PAR_TEXT_ALIGNMENT,$LEFT)
+  set_control_par_str(get_ui_id($lbl_delay_fb),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_delay_fb)
+  inc($Controls__labelCount)
+  declare ui_label $lbl_suf_delay_fb(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_suf_delay_fb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 430+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+51
+  %_UI_WIDTH[$_UI_COUNT] := 70
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := " %"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_POS_X,430+9)
+  set_control_par(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_POS_Y,106+51)
+  set_control_par(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_WIDTH,70)
+  set_control_par(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_TEXT," %")
+  set_control_par(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_suf_delay_fb),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_suf_delay_fb)
+  inc($Controls__labelCount)
+  hide_part($lbl_delay_fb,$HIDE_PART_BG)
+  hide_part($lbl_suf_delay_fb,$HIDE_PART_BG)
+  hide_part($ve_delay_fb,$HIDE_PART_BG)
+  ~_c1 := int_to_real($ve_delay_fb)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_delay_fb := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE)))
+  set_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_DEFAULT_VALUE,real_to_int((int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_DEFAULT_VALUE))-int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE))*int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE))+int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE))))
+  declare ui_slider $sli_reverb(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_reverb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 530
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_POS_X,530)
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($sli_reverb),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_reverb)
+  end if
+  read_persistent_var($sli_reverb)
+  declare ui_value_edit $ve_reverb(0, $MIL, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($ve_reverb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 530+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+50
+  %_UI_WIDTH[$_UI_COUNT] := 60
+  %_UI_HEIGHT[$_UI_COUNT] := 0
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 90
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $VALUE_EDITS
+  set_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_POS_X,530+9)
+  set_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_POS_Y,106+50)
+  set_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_WIDTH,60)
+  set_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_DEFAULT_VALUE,90)
+  set_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_VALUE,90)
+  set_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par_str(get_ui_id($ve_reverb),$CONTROL_PAR_PICTURE,-1)
+  set_control_par_str(get_ui_id($ve_reverb),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($ve_reverb)
+  end if
+  %Controls__labels[$Controls__labelCount] := get_ui_id($ve_reverb)
+  inc($Controls__labelCount)
+  read_persistent_var($ve_reverb)
+  declare ui_label $lbl_reverb(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_reverb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 530-5
+  %_UI_POS_Y[$_UI_COUNT] := 106-30
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "Reverb"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $LEFT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_reverb),$CONTROL_PAR_POS_X,530-5)
+  set_control_par(get_ui_id($lbl_reverb),$CONTROL_PAR_POS_Y,106-30)
+  set_control_par(get_ui_id($lbl_reverb),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_reverb),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_reverb),$CONTROL_PAR_TEXT,"Reverb")
+  set_control_par(get_ui_id($lbl_reverb),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_reverb),$CONTROL_PAR_TEXT_ALIGNMENT,$LEFT)
+  set_control_par_str(get_ui_id($lbl_reverb),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_reverb)
+  inc($Controls__labelCount)
+  declare ui_label $lbl_suf_reverb(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_suf_reverb)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 530+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+51
+  %_UI_WIDTH[$_UI_COUNT] := 70
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := ""
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_POS_X,530+9)
+  set_control_par(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_POS_Y,106+51)
+  set_control_par(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_WIDTH,70)
+  set_control_par(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_TEXT,"")
+  set_control_par(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_suf_reverb),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_suf_reverb)
+  inc($Controls__labelCount)
+  hide_part($lbl_reverb,$HIDE_PART_BG)
+  hide_part($lbl_suf_reverb,$HIDE_PART_BG)
+  hide_part($ve_reverb,$HIDE_PART_BG)
+  ~_c1 := int_to_real($ve_reverb)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_reverb := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MIN_VALUE)))
+  set_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_DEFAULT_VALUE,real_to_int((int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_DEFAULT_VALUE))-int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MIN_VALUE))*int_to_real(get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MIN_VALUE))+int_to_real(get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MIN_VALUE))))
+  hide_part($ve_reverb,$HIDE_WHOLE_CONTROL)
+  declare ui_switch $swi_dist_bypass
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($swi_dist_bypass)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 127
+  %_UI_POS_Y[$_UI_COUNT] := 235
+  %_UI_WIDTH[$_UI_COUNT] := 30
+  %_UI_HEIGHT[$_UI_COUNT] := 30
+  !_UI_TEXT[$_UI_COUNT] := ""
+  !_UI_PICTURE[$_UI_COUNT] := "bypass"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SWITCHES
+  set_control_par(get_ui_id($swi_dist_bypass),$CONTROL_PAR_POS_X,127)
+  set_control_par(get_ui_id($swi_dist_bypass),$CONTROL_PAR_POS_Y,235)
+  set_control_par(get_ui_id($swi_dist_bypass),$CONTROL_PAR_WIDTH,30)
+  set_control_par(get_ui_id($swi_dist_bypass),$CONTROL_PAR_HEIGHT,30)
+  set_control_par(get_ui_id($swi_dist_bypass),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($swi_dist_bypass),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($swi_dist_bypass),$CONTROL_PAR_PICTURE,"bypass")
+  set_control_par_str(get_ui_id($swi_dist_bypass),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($swi_dist_bypass)
+  end if
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_dist_bypass,-1,0,-1)
+  declare ui_switch $swi_cutoff_bypass
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($swi_cutoff_bypass)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 227
+  %_UI_POS_Y[$_UI_COUNT] := 235
+  %_UI_WIDTH[$_UI_COUNT] := 30
+  %_UI_HEIGHT[$_UI_COUNT] := 30
+  !_UI_TEXT[$_UI_COUNT] := ""
+  !_UI_PICTURE[$_UI_COUNT] := "bypass"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SWITCHES
+  set_control_par(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_POS_X,227)
+  set_control_par(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_POS_Y,235)
+  set_control_par(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_WIDTH,30)
+  set_control_par(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_HEIGHT,30)
+  set_control_par(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_DEFAULT_VALUE,1)
+  set_control_par(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_VALUE,1)
+  set_control_par_str(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_PICTURE,"bypass")
+  set_control_par_str(get_ui_id($swi_cutoff_bypass),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($swi_cutoff_bypass)
+  end if
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_cutoff_bypass,-1,1,-1)
+  declare ui_switch $swi_delay_bypass
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($swi_delay_bypass)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 377
+  %_UI_POS_Y[$_UI_COUNT] := 235
+  %_UI_WIDTH[$_UI_COUNT] := 30
+  %_UI_HEIGHT[$_UI_COUNT] := 30
+  !_UI_TEXT[$_UI_COUNT] := ""
+  !_UI_PICTURE[$_UI_COUNT] := "bypass"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SWITCHES
+  set_control_par(get_ui_id($swi_delay_bypass),$CONTROL_PAR_POS_X,377)
+  set_control_par(get_ui_id($swi_delay_bypass),$CONTROL_PAR_POS_Y,235)
+  set_control_par(get_ui_id($swi_delay_bypass),$CONTROL_PAR_WIDTH,30)
+  set_control_par(get_ui_id($swi_delay_bypass),$CONTROL_PAR_HEIGHT,30)
+  set_control_par(get_ui_id($swi_delay_bypass),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($swi_delay_bypass),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($swi_delay_bypass),$CONTROL_PAR_PICTURE,"bypass")
+  set_control_par_str(get_ui_id($swi_delay_bypass),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($swi_delay_bypass)
+  end if
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_delay_bypass,-1,2,-1)
+  declare ui_switch $swi_reverb_bypass
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($swi_reverb_bypass)
+  %_UI_FAMILIES[$_UI_COUNT] := $mainControls
+  %_UI_POS_X[$_UI_COUNT] := 527
+  %_UI_POS_Y[$_UI_COUNT] := 235
+  %_UI_WIDTH[$_UI_COUNT] := 30
+  %_UI_HEIGHT[$_UI_COUNT] := 30
+  !_UI_TEXT[$_UI_COUNT] := ""
+  !_UI_PICTURE[$_UI_COUNT] := "bypass"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SWITCHES
+  set_control_par(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_POS_X,527)
+  set_control_par(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_POS_Y,235)
+  set_control_par(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_WIDTH,30)
+  set_control_par(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_HEIGHT,30)
+  set_control_par(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_PICTURE,"bypass")
+  set_control_par_str(get_ui_id($swi_reverb_bypass),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($swi_reverb_bypass)
+  end if
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_reverb_bypass,-1,3,-1)
+  declare const $secondaryControls := 2
+  declare ui_slider $sli_pitch(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_pitch)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 200
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_POS_X,200)
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_VALUE,0)
+  set_control_par_str(get_ui_id($sli_pitch),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_pitch)
+  end if
+  read_persistent_var($sli_pitch)
+  declare ui_value_edit $ve_pitch(-12, 12, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($ve_pitch)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 200+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+50
+  %_UI_WIDTH[$_UI_COUNT] := 60
+  %_UI_HEIGHT[$_UI_COUNT] := 0
+  %_UI_CTRL_MIN[$_UI_COUNT] := -12
+  %_UI_CTRL_MAX[$_UI_COUNT] := 12
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 0
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $VALUE_EDITS
+  set_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_POS_X,200+9)
+  set_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_POS_Y,106+50)
+  set_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_WIDTH,60)
+  set_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_DEFAULT_VALUE,0)
+  set_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_VALUE,0)
+  set_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par_str(get_ui_id($ve_pitch),$CONTROL_PAR_PICTURE,-1)
+  set_control_par_str(get_ui_id($ve_pitch),$CONTROL_PAR_TEXT,"")
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($ve_pitch)
+  end if
+  %Controls__labels[$Controls__labelCount] := get_ui_id($ve_pitch)
+  inc($Controls__labelCount)
+  read_persistent_var($ve_pitch)
+  declare ui_label $lbl_pitch(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_pitch)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 200-5
+  %_UI_POS_Y[$_UI_COUNT] := 106-30
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "pitch"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $LEFT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_pitch),$CONTROL_PAR_POS_X,200-5)
+  set_control_par(get_ui_id($lbl_pitch),$CONTROL_PAR_POS_Y,106-30)
+  set_control_par(get_ui_id($lbl_pitch),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_pitch),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_pitch),$CONTROL_PAR_TEXT,"pitch")
+  set_control_par(get_ui_id($lbl_pitch),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_pitch),$CONTROL_PAR_TEXT_ALIGNMENT,$LEFT)
+  set_control_par_str(get_ui_id($lbl_pitch),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_pitch)
+  inc($Controls__labelCount)
+  declare ui_label $lbl_suf_pitch(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_suf_pitch)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 200+9
+  %_UI_POS_Y[$_UI_COUNT] := 106+51
+  %_UI_WIDTH[$_UI_COUNT] := 70
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := ""
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := 1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_POS_X,200+9)
+  set_control_par(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_POS_Y,106+51)
+  set_control_par(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_WIDTH,70)
+  set_control_par(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_TEXT,"")
+  set_control_par(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_suf_pitch),$CONTROL_PAR_PICTURE,1)
+  %Controls__labels[$Controls__labelCount] := get_ui_id($lbl_suf_pitch)
+  inc($Controls__labelCount)
+  hide_part($lbl_pitch,$HIDE_PART_BG)
+  hide_part($lbl_suf_pitch,$HIDE_PART_BG)
+  hide_part($ve_pitch,$HIDE_PART_BG)
+  ~_c1 := int_to_real($ve_pitch)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_pitch := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE)))
+  set_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_DEFAULT_VALUE,real_to_int((int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_DEFAULT_VALUE))-int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE))*int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))+int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))))
+  declare ui_slider $sli_speed(0, $MIL) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($sli_speed)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 300
+  %_UI_POS_Y[$_UI_COUNT] := 106
+  %_UI_WIDTH[$_UI_COUNT] := -1
+  %_UI_HEIGHT[$_UI_COUNT] := -1
+  %_UI_CTRL_MIN[$_UI_COUNT] := 0
+  %_UI_CTRL_MAX[$_UI_COUNT] := $MIL
+  !_UI_PICTURE[$_UI_COUNT] := "fader"
+  %_UI_DEFAULT_VALUE[$_UI_COUNT] := 500000
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $SLIDERS
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_POS_X,300)
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_POS_Y,106)
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_WIDTH,-1)
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_HEIGHT,-1)
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_DEFAULT_VALUE,500000)
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_VALUE,500000)
+  set_control_par_str(get_ui_id($sli_speed),$CONTROL_PAR_PICTURE,"fader")
+  set_control_par(get_ui_id($sli_speed),$CONTROL_PAR_MOUSE_BEHAVIOUR,-2500)
+  if ($PERSISTENT=$PERSISTENT)
+    make_persistent($sli_speed)
+  end if
+  make_persistent($sli_speed)
+  read_persistent_var($sli_speed)
+  declare ui_label $lbl_speed(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_speed)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 292
+  %_UI_POS_Y[$_UI_COUNT] := 157
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := ""
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_speed),$CONTROL_PAR_POS_X,292)
+  set_control_par(get_ui_id($lbl_speed),$CONTROL_PAR_POS_Y,157)
+  set_control_par(get_ui_id($lbl_speed),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_speed),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_speed),$CONTROL_PAR_TEXT,"")
+  set_control_par(get_ui_id($lbl_speed),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_speed),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_speed),$CONTROL_PAR_PICTURE,-1)
+  hide_part($lbl_speed,$HIDE_PART_BG)
+  declare ui_label $lbl_speed_title(1, 1) 
+  inc($_UI_COUNT)
+  %_UI_IDS[$_UI_COUNT] := get_ui_id($lbl_speed_title)
+  %_UI_FAMILIES[$_UI_COUNT] := $secondaryControls
+  %_UI_POS_X[$_UI_COUNT] := 263
+  %_UI_POS_Y[$_UI_COUNT] := 76
+  %_UI_WIDTH[$_UI_COUNT] := 80
+  %_UI_HEIGHT[$_UI_COUNT] := 15
+  !_UI_TEXT[$_UI_COUNT] := "Speed"
+  %_UI_FONT_TYPE[$_UI_COUNT] := $BOLD__BLACK
+  %_UI_FONT_ALIGNMENT[$_UI_COUNT] := $RIGHT
+  !_UI_PICTURE[$_UI_COUNT] := -1
+  %_UI_CURR_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_DEF_VISIBILITY[$_UI_COUNT] := $VISIBLE
+  %_UI_TYPE[$_UI_COUNT] := $TEXT_LABELS
+  set_control_par(get_ui_id($lbl_speed_title),$CONTROL_PAR_POS_X,263)
+  set_control_par(get_ui_id($lbl_speed_title),$CONTROL_PAR_POS_Y,76)
+  set_control_par(get_ui_id($lbl_speed_title),$CONTROL_PAR_WIDTH,80)
+  set_control_par(get_ui_id($lbl_speed_title),$CONTROL_PAR_HEIGHT,15)
+  set_control_par_str(get_ui_id($lbl_speed_title),$CONTROL_PAR_TEXT,"Speed")
+  set_control_par(get_ui_id($lbl_speed_title),$CONTROL_PAR_FONT_TYPE,$BOLD__BLACK)
+  set_control_par(get_ui_id($lbl_speed_title),$CONTROL_PAR_TEXT_ALIGNMENT,$RIGHT)
+  set_control_par_str(get_ui_id($lbl_speed_title),$CONTROL_PAR_PICTURE,-1)
+  hide_part($lbl_speed_title,$HIDE_PART_BG)
+  $i := 0
+  while ($i<$NUM_GROUPS)
+    set_engine_par($ENGINE_PAR_SPEED,$sli_speed,$i,-1,-1)
+    inc($i)
+  end while
+  set_text($lbl_speed,get_engine_par_disp($ENGINE_PAR_SPEED,0,-1,-1) & "%")
+  $btn_main_control := 0
+  $btn_secondary_control := 1
+  $_j := 1
+  while (%_UI_IDS[$_j] # $_EOA and ($_j<$MAX_ARRAY_SIZE))
+    if ($mainControls=$ALL_FAMILIES or (%_UI_FAMILIES[$_j] .and. $mainControls # 0))
+      set_control_par(%_UI_IDS[$_j],$CONTROL_PAR_HIDE,$VISIBLE)
+      %_UI_CURR_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $VISIBLE
+      if ($NI_CALLBACK_TYPE=$NI_CB_TYPE_INIT)
+        %_UI_DEF_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $VISIBLE
+      end if
+    end if
+    inc($_j)
+  end while
+  $i := 0
+  while ($i<$Controls__labelCount)
+    set_control_par(%Controls__labels[$i],$CONTROL_PAR_HIDE,$HIDE_PART_BG)
+    inc($i)
+  end while
+  hide_part($lbl_speed,$HIDE_PART_BG)
+  hide_part($lbl_speed_title,$HIDE_PART_BG)
+  $_j := 1
+  while (%_UI_IDS[$_j] # $_EOA and ($_j<$MAX_ARRAY_SIZE))
+    if ($secondaryControls=$ALL_FAMILIES or (%_UI_FAMILIES[$_j] .and. $secondaryControls # 0))
+      set_control_par(%_UI_IDS[$_j],$CONTROL_PAR_HIDE,$INVISIBLE)
+      %_UI_CURR_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $INVISIBLE
+      if ($NI_CALLBACK_TYPE=$NI_CB_TYPE_INIT)
+        %_UI_DEF_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $INVISIBLE
+      end if
+    end if
+    inc($_j)
+  end while
+  hide_part($ve_reverb,$HIDE_WHOLE_CONTROL)
+  declare $_tuningDelta
+end on
+
+on persistence_changed
+  while (1=1)
+    if ($logger_previous_count # $logger_count)
+      $LOGGER_ASYNC_ID := save_array_str(!_log,@logger_filepath)
+    end if
+    $logger_previous_count := $logger_count
+    wait(200000)
+  end while
+end on
+
+on listener
+end on
+
+on note
+end on
+
+on release
+end on
+
+on controller
+end on
+
+on pgs_changed
+end on
+
+on poly_at
+end on
+
+on rpn
+end on
+
+on async_complete
+end on
+
+on nrpn
+end on
+
+on ui_control($btn_main_control)
+  $btn_main_control := 0
+  $btn_secondary_control := 1
+  $_j := 1
+  while (%_UI_IDS[$_j] # $_EOA and ($_j<$MAX_ARRAY_SIZE))
+    if ($mainControls=$ALL_FAMILIES or (%_UI_FAMILIES[$_j] .and. $mainControls # 0))
+      set_control_par(%_UI_IDS[$_j],$CONTROL_PAR_HIDE,$VISIBLE)
+      %_UI_CURR_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $VISIBLE
+      if ($NI_CALLBACK_TYPE=$NI_CB_TYPE_INIT)
+        %_UI_DEF_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $VISIBLE
+      end if
+    end if
+    inc($_j)
+  end while
+  $i := 0
+  while ($i<$Controls__labelCount)
+    set_control_par(%Controls__labels[$i],$CONTROL_PAR_HIDE,$HIDE_PART_BG)
+    inc($i)
+  end while
+  hide_part($lbl_speed,$HIDE_PART_BG)
+  hide_part($lbl_speed_title,$HIDE_PART_BG)
+  $_j := 1
+  while (%_UI_IDS[$_j] # $_EOA and ($_j<$MAX_ARRAY_SIZE))
+    if ($secondaryControls=$ALL_FAMILIES or (%_UI_FAMILIES[$_j] .and. $secondaryControls # 0))
+      set_control_par(%_UI_IDS[$_j],$CONTROL_PAR_HIDE,$INVISIBLE)
+      %_UI_CURR_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $INVISIBLE
+      if ($NI_CALLBACK_TYPE=$NI_CB_TYPE_INIT)
+        %_UI_DEF_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $INVISIBLE
+      end if
+    end if
+    inc($_j)
+  end while
+  hide_part($ve_reverb,$HIDE_WHOLE_CONTROL)
+end on
+
+on ui_control($btn_secondary_control)
+  $btn_secondary_control := 0
+  $btn_main_control := 1
+  $_j := 1
+  while (%_UI_IDS[$_j] # $_EOA and ($_j<$MAX_ARRAY_SIZE))
+    if ($secondaryControls=$ALL_FAMILIES or (%_UI_FAMILIES[$_j] .and. $secondaryControls # 0))
+      set_control_par(%_UI_IDS[$_j],$CONTROL_PAR_HIDE,$VISIBLE)
+      %_UI_CURR_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $VISIBLE
+      if ($NI_CALLBACK_TYPE=$NI_CB_TYPE_INIT)
+        %_UI_DEF_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $VISIBLE
+      end if
+    end if
+    inc($_j)
+  end while
+  $i := 0
+  while ($i<$Controls__labelCount)
+    set_control_par(%Controls__labels[$i],$CONTROL_PAR_HIDE,$HIDE_PART_BG)
+    inc($i)
+  end while
+  hide_part($lbl_speed,$HIDE_PART_BG)
+  hide_part($lbl_speed_title,$HIDE_PART_BG)
+  $_j := 1
+  while (%_UI_IDS[$_j] # $_EOA and ($_j<$MAX_ARRAY_SIZE))
+    if ($mainControls=$ALL_FAMILIES or (%_UI_FAMILIES[$_j] .and. $mainControls # 0))
+      set_control_par(%_UI_IDS[$_j],$CONTROL_PAR_HIDE,$INVISIBLE)
+      %_UI_CURR_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $INVISIBLE
+      if ($NI_CALLBACK_TYPE=$NI_CB_TYPE_INIT)
+        %_UI_DEF_VISIBILITY[search(%_UI_IDS,%_UI_IDS[$_j])] := $INVISIBLE
+      end if
+    end if
+    inc($_j)
+  end while
+  hide_part($ve_reverb,$HIDE_WHOLE_CONTROL)
+end on
+
+on ui_control($sli_dist)
+  set_engine_par($ENGINE_PAR_SHAPE,$sli_dist,-1,0,1)
+  ~_c1 := int_to_real($sli_dist)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $ve_dist := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($ve_dist)
+  set_engine_par($ENGINE_PAR_SHAPE,$sli_dist,-1,0,1)
+  ~_c1 := int_to_real($ve_dist)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_dist),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_dist := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_dist),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($swi_dist_bypass)
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_dist_bypass,-1,0,-1)
+end on
+
+on ui_control($sli_cutoff)
+  set_engine_par($ENGINE_PAR_CUTOFF,$sli_cutoff,-1,1,1)
+  ~_c1 := int_to_real($sli_cutoff)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $ve_cutoff := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($ve_cutoff)
+  set_engine_par($ENGINE_PAR_CUTOFF,$sli_cutoff,-1,1,1)
+  ~_c1 := int_to_real($ve_cutoff)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_cutoff),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_cutoff := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_cutoff),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($swi_cutoff_bypass)
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_cutoff_bypass,-1,1,-1)
+end on
+
+on ui_control($sli_delay_time)
+  set_engine_par($ENGINE_PAR_RDL_TIME,$sli_delay_time,-1,2,1)
+  ~_c1 := int_to_real($sli_delay_time)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $ve_delay_time := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($ve_delay_time)
+  set_engine_par($ENGINE_PAR_RDL_TIME,$sli_delay_time,-1,2,1)
+  ~_c1 := int_to_real($ve_delay_time)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_delay_time),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_delay_time := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_delay_time),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($sli_delay_fb)
+  set_engine_par($ENGINE_PAR_RDL_FEEDBACK,$sli_delay_fb,-1,2,1)
+  ~_c1 := int_to_real($sli_delay_fb)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $ve_delay_fb := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($ve_delay_fb)
+  set_engine_par($ENGINE_PAR_RDL_FEEDBACK,$sli_delay_fb,-1,2,1)
+  ~_c1 := int_to_real($ve_delay_fb)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_delay_fb),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_delay_fb := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_delay_fb),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($swi_delay_bypass)
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_delay_bypass,-1,2,-1)
+end on
+
+on ui_control($sli_reverb)
+  set_engine_par($ENGINE_PAR_RV2_TIME,$sli_reverb,-1,3,1)
+  ~_c1 := int_to_real($sli_reverb)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($sli_reverb),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $ve_reverb := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($ve_reverb),$CONTROL_PAR_MIN_VALUE)))
+end on
+
+on ui_control($swi_reverb_bypass)
+  set_engine_par($ENGINE_PAR_EFFECT_BYPASS,$swi_reverb_bypass,-1,3,-1)
+end on
+
+on ui_control($sli_pitch)
+  ~_c1 := int_to_real($sli_pitch)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $ve_pitch := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE)))
+  $_tuningDelta := real_to_int((int_to_real($sli_pitch)-int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))*int_to_real(166666--166666)+int_to_real(-166666))
+  $i := 0
+  while ($i<$NUM_GROUPS)
+    if (in_range($i,0,1))
+      set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+    else
+      if (in_range($i,2,3))
+        set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+      else
+        if (in_range($i,4,5))
+          set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+        else
+          if (in_range($i,6,7))
+            set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+          else
+            message("i is outside of bounds")
+          end if
+        end if
+      end if
+    end if
+    inc($i)
+  end while
+end on
+
+on ui_control($ve_pitch)
+  ~_c1 := int_to_real($ve_pitch)
+  ~_range1 := int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE))
+  ~_range2 := int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))
+  ~_norm := (~_c1-int_to_real(get_control_par(get_ui_id($ve_pitch),$CONTROL_PAR_MIN_VALUE)))/~_range1
+  $sli_pitch := real_to_int(~_norm*~_range2+int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE)))
+  $_tuningDelta := real_to_int((int_to_real($sli_pitch)-int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE)))/int_to_real(get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MAX_VALUE)-get_control_par(get_ui_id($sli_pitch),$CONTROL_PAR_MIN_VALUE))*int_to_real(166666--166666)+int_to_real(-166666))
+  $i := 0
+  while ($i<$NUM_GROUPS)
+    if (in_range($i,0,1))
+      set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+    else
+      if (in_range($i,2,3))
+        set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+      else
+        if (in_range($i,4,5))
+          set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+        else
+          if (in_range($i,6,7))
+            set_engine_par($ENGINE_PAR_TUNE,%GroupAttributes__startTunings[$i]+$_tuningDelta,$i,-1,-1)
+          else
+            message("i is outside of bounds")
+          end if
+        end if
+      end if
+    end if
+    inc($i)
+  end while
+end on
+
+on ui_control($sli_speed)
+  $i := 0
+  while ($i<$NUM_GROUPS)
+    set_engine_par($ENGINE_PAR_SPEED,$sli_speed,$i,-1,-1)
+    inc($i)
+  end while
+  set_text($lbl_speed,get_engine_par_disp($ENGINE_PAR_SPEED,0,-1,-1) & "%")
+end on
+

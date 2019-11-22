@@ -1,0 +1,57 @@
+{ ---------------------------------------------------------------------
+Title: View Library
+File: view.ksp
+Author: Wesley Coleman
+First Written: 
+Current Version: 1.0
+Last Modified:
+----------------------------------------------------------------------}
+
+{/**
+* View Initialisation macro. This macro shold be called inside the controller's 'on init' callback after all configuration files are loaded.
+* this macro is where all UI control declarations are made
+*}
+
+macro view.init()
+	// ui.control_knobs(420, 25)
+{ TabControls }
+	create_family(tabControls, 0)
+		create_button(btn_main_control, tabControls, 180, 50, -1, -1, ON, NOT_PERSISTENT, 'Main', 'tab')
+		create_button(btn_secondary_control, tabControls, 247, 50, -1, -1, OFF, NOT_PERSISTENT, 'Pitch + Time', 'tab')
+
+{ Main Controls }
+	create_family(mainControls, 1)
+		md.uiSliderAndVE(dist, mainControls, 130, 106, -100, 100, 0, 'Saturation', ' %')
+		md.uiSliderAndVE(cutoff, mainControls, 230, 106, 26, 19900, 6000, 'Cutoff', ' Hz')
+		md.uiSliderAndVE(delay_time, mainControls, 330, 106, 0, 2000, 1000, 'Delay Time', ' ms')
+		md.uiSliderAndVE(delay_fb, mainControls, 430, 106, 0, 120, 90, 'Feedback', ' %')
+		md.uiSliderAndVE(reverb, mainControls, 530, 106, 0, MIL, 90, 'Reverb', '')
+			hide_part(ve_reverb, HIDE_WHOLE_CONTROL)
+
+		create_switch(swi_dist_bypass, mainControls, 127, 235, 30, 30, 0, PERSISTENT, '', 'bypass')
+			md.toggleBypass(swi_dist_bypass, 0)
+		create_switch(swi_cutoff_bypass, mainControls, 227, 235, 30, 30, 1, PERSISTENT, '', 'bypass')
+			md.toggleBypass(swi_cutoff_bypass, 1)
+		create_switch(swi_delay_bypass, mainControls, 377, 235, 30, 30, 0, PERSISTENT, '', 'bypass')
+			md.toggleBypass(swi_delay_bypass, 2)
+		create_switch(swi_reverb_bypass, mainControls, 527, 235, 30, 30, 0, PERSISTENT, '', 'bypass')
+			md.toggleBypass(swi_reverb_bypass, 3)
+{ Secondary Controls }
+	create_family(secondaryControls, 2)
+		md.uiSliderAndVE(pitch, secondaryControls, 200, 106, -12, 12, 0, 'pitch', '')
+		create_slider(sli_speed, secondaryControls, 300, 106, -1, -1, 0, MIL, 500000, PERSISTENT, -2500, 'fader'){ Strange mapping on speed parameter in engine so I just made a text label instead of a value edit }
+			make_persistent(sli_speed)
+			read_persistent_var(sli_speed)
+			create_text_label(lbl_speed, secondaryControls, 292, 157, 80, 15, '', BOLD.BLACK, RIGHT, -1)
+				hide_part(lbl_speed, HIDE_PART_BG)
+
+			create_text_label(lbl_speed_title, secondaryControls, 263, 76, 80, 15, 'Speed', BOLD.BLACK, RIGHT, -1)
+				hide_part(lbl_speed_title, HIDE_PART_BG)
+			md.changeSpeed(sli_speed, lbl_speed)
+
+	
+	md.tabControlToggle(btn_main_control, btn_secondary_control, mainControls, secondaryControls)
+
+end macro
+
+

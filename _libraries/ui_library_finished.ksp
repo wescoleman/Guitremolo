@@ -1,0 +1,82 @@
+{ ---------------------------------------------------------------------
+Title: UI Library
+File: ui_library.ksp
+Author: David Healy
+First Written: 
+Current Version: 1.0
+Last Modified:
+----------------------------------------------------------------------}
+
+{/**
+* Adds CC numbers to a menu as menu items
+*
+* @param    menu        Control name of the menu to add items to, including mnu_ prefix
+* @param    default     Menu item number to be set as default
+* @param    min         Minimum CC number to represent 0 - 127
+* @param    max         Maximum CC number to represent 0 - 127
+*/}
+function ui.cc_menu_items(menu, default, min, max)
+
+    declare i
+
+    for i := min to max
+        add_menu_item(menu,'CC: ' & i, i){Add cc items to menu}
+    end for
+
+    menu := default
+
+end function
+
+{/**
+* Creates a ui control callback for the given control, and one action to perform when the callback is triggered
+*
+* @param    control     The GUI control to apply the action to
+* @param    action      The action to link to the control
+*/}
+macro ui.control_action(#control#, #action#)
+    on ui_control(#control#)
+        
+        #action#
+    end on
+end macro
+
+{/**
+* Places two knobs at the given XY position that are used in conjunction with the control_knobs_action function to dynamically position
+* a GUI control and provide visual feedback of the control's position.
+*
+* @param    x       The X position of the x control knob, the y knob will be positioned +100 of this value.
+* @param    y       The Y position of the x and y knobs.
+*/}
+macro ui.control_knobs(x, y)
+
+    declare ui_knob knb_control_x(0, 620, 1)
+        knb_control_x -> POS_X := x
+        knb_control_x -> POS_Y := y
+        knb_control_x -> UNIT := KNOB_UNIT_NONE
+        knb_control_x -> TEXT := 'X'
+
+    declare ui_knob knb_control_y(0, 620, 1)
+        knb_control_y -> POS_X := x+100
+        knb_control_y -> POS_Y := y
+        knb_control_y -> UNIT := KNOB_UNIT_NONE
+        knb_control_y -> TEXT := 'Y'
+
+end macro
+
+
+{/**
+* Control action callbacks for control knobs to dynamically position GUI controls.
+*
+* @param    control_id      The name of the GUI control to dynamically position.
+/*}
+macro ui.control_knobs_action(control)
+
+    on ui_control(knb_control_x)
+        control -> POS_X := knb_control_x
+    end on
+
+    on ui_control(knb_control_y)
+        control -> POS_Y := knb_control_y
+    end on
+
+end macro

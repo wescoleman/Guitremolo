@@ -1,0 +1,25 @@
+{ ---------------------------------------------------------------------
+Title: General Library
+File: lib.ksp
+Author: David Healy
+First Written: 
+Current Version: 1.0
+Last Modified:
+----------------------------------------------------------------------}
+macro lib.2D_array(#name#, c, r, default)
+    declare #name#_array_data[r*c] := (default) { declare normal array using given c and r values to calculate array size }
+
+    family #name#
+        declare const columns := c
+        declare const rows := r
+    end family
+
+    property #name#
+        function get(x,y) -> result
+            result := #name#_array_data[y * c + x] 
+        end function
+        function set(x,y, value) 
+            #name#_array_data[y * c +x] := value
+        end function
+    end property
+end macro
